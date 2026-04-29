@@ -4,54 +4,69 @@
     <meta charset="UTF-8">
     <title>HBD Kate! 💜</title>
     <style>
-        body { margin: 0; background: #000; color: #fff; font-family: 'Poppins', sans-serif; text-align: center; }
-        #intro-kate { position: fixed; inset:0; background: #1a1a1a; z-index: 1000; display:flex; align-items:center; justify-content:center; }
-        .txt-kate { display:none; font-size: 3rem; color: #bb86fc; text-shadow: 0 0 10px #bb86fc; }
-        #main-kate { display: none; background: #0a0a0a; padding: 20px; }
-        .bts-card { border: 2px solid #bb86fc; padding: 20px; border-radius: 15px; background: rgba(187, 134, 252, 0.1); margin: 20px; }
+        body { margin: 0; background: #000; color: white; font-family: sans-serif; text-align: center; overflow-x: hidden; }
+        .bg-kate { position: fixed; inset: 0; background: radial-gradient(circle, #240046, #000); z-index: -1; }
+        
+        .container { padding: 40px 20px; display: none; }
+        #intro-k { position: fixed; inset: 0; background: #121212; z-index: 1000; display: flex; align-items: center; justify-content: center; }
+        
+        .bts-photo { border: 4px solid #bb86fc; border-radius: 50%; width: 200px; height: 200px; object-fit: cover; box-shadow: 0 0 20px #bb86fc; }
+        .mural-k { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 30px; }
+        .mural-k img { width: 100%; border-radius: 10px; border: 2px solid #bb86fc; filter: brightness(0.8); transition: 0.3s; }
+        .mural-k img:hover { filter: brightness(1.2); box-shadow: 0 0 20px #bb86fc; }
+        
+        .btn-k { background: #bb86fc; color: black; border: none; padding: 15px 30px; border-radius: 10px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
-    <audio id="kateMusic" loop><source src="LINK_DE_BTS_AQUÍ.mp3"></audio>
+    <div class="bg-kate"></div>
+    <audio id="audioK" loop><source src="TU_LINK_DE_BTS.mp3"></audio>
 
-    <div id="intro-kate">
-        <div class="txt-kate" id="k1">¡Atención ARMY! 💜</div>
-        <div class="txt-kate" id="k2">Hoy una reina cumple años...</div>
-        <div class="txt-kate" id="k3">¡Feliz Cumple Kate! 🎂</div>
-        <div class="txt-kate" id="k4"><button onclick="startKate()" style="padding:15px; background:#bb86fc; border:none; cursor:pointer;">VER REGALO 🎁</button></div>
+    <div id="intro-k">
+        <h1 id="text-k" style="color:#bb86fc; font-size: 3rem;">¡Atención ARMY! 💜</h1>
     </div>
 
-    <div id="main-kate">
-        <h1 style="color:#bb86fc">HAPPY BIRTHDAY KATE 👑</h1>
-        <div class="bts-card">
-            <h3>Para mi Cuñis favorita:</h3>
-            <p>Kate, que este año sea "Dynamite" y que sigas brillando como los chicos de BTS. ¡Pásala increíble!</p>
-        </div>
-
-        <div class="grid-fotos" style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-            <img src="kate1.jpg" style="width:100%">
-            <img src="kate2.jpg" style="width:100%">
-        </div>
-
-        <h3>Minijuegos para Kate 🕹️</h3>
-        <button onclick="alert('BTS Quiz: ¿Quién es el líder?')">BTS Trivia</button>
-        <button onclick="alert('¡Confeti virtual lanzado!')">Lanzar Confeti</button>
+    <div class="container" id="main-k">
+        <img src="kate_perfil.jpg" class="bts-photo">
+        <h1 style="font-size: 3.5rem;">KATE: 20 AÑOS 🎂</h1>
         
-        <br><br><a href="ambas.html" style="color:#bb86fc">Saludo para las dos 👯‍♀️</a>
+        <div style="background: rgba(187,134,252,0.1); padding: 20px; border-radius: 20px; border: 1px solid #bb86fc;">
+            <h3>Para mi cuñis favorita</h3>
+            <p>Kate, que tus 20 años sean tan vibrantes como un concierto de BTS. ¡Te mereces todo lo mejor hoy y siempre!</p>
+        </div>
+
+        <div class="mural-k">
+            <img src="k1.jpg"> <img src="k2.jpg"> <img src="k3.jpg">
+        </div>
+
+        <h2>BTS Game Area 🕹️</h2>
+        <div style="background: #111; padding: 20px; border-radius: 20px;">
+            <p>Haz clic al ritmo de la música</p>
+            <button class="btn-k" onclick="confettiBlast()">LANZAR DINAMITA 🧨</button>
+        </div>
+
+        <br><a href="ambas.html" style="color:#bb86fc; text-decoration:none;">Ir al mural de las dos 👯‍♀️</a>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <script>
-        let kStep = 1;
-        function stepsKate() {
-            if(kStep > 1) document.getElementById('k'+(kStep-1)).style.display = 'none';
-            document.getElementById('k'+kStep).style.display = 'block';
-            if(kStep < 4) { kStep++; setTimeout(stepsKate, 2000); }
-        }
-        window.onload = stepsKate;
-        function startKate() {
-            document.getElementById('kateMusic').play();
-            document.getElementById('intro-kate').style.display = 'none';
-            document.getElementById('main-kate').style.display = 'block';
+        const texts = ["¡Atención ARMY! 💜", "Hoy es un día Legendario...", "¡Feliz Cumpleaños Kate!", "20 Años de Brillo ✨"];
+        let i = 0;
+        const interval = setInterval(() => {
+            document.getElementById('text-k').innerText = texts[i];
+            i++;
+            if(i == texts.length) {
+                clearInterval(interval);
+                setTimeout(() => {
+                    document.getElementById('intro-k').style.display = 'none';
+                    document.getElementById('main-k').style.display = 'block';
+                    document.getElementById('audioK').play();
+                }, 2000);
+            }
+        }, 2000);
+
+        function confettiBlast() {
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#bb86fc', '#ffffff'] });
         }
     </script>
 </body>
