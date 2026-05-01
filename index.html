@@ -2,71 +2,215 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HBD Kate! 💜</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&family=Syncopate:wght@700&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; background: #000; color: white; font-family: sans-serif; text-align: center; overflow-x: hidden; }
-        .bg-kate { position: fixed; inset: 0; background: radial-gradient(circle, #240046, #000); z-index: -1; }
+        :root { 
+            --army-purple: #bb86fc; 
+            --dark-purple: #1a0033; 
+            --bts-gradient: linear-gradient(135deg, #240046 0%, #000000 100%);
+        }
         
-        .container { padding: 40px 20px; display: none; }
-        #intro-k { position: fixed; inset: 0; background: #121212; z-index: 1000; display: flex; align-items: center; justify-content: center; }
+        body { 
+            margin: 0; 
+            background: #000; 
+            color: white; 
+            font-family: 'Montserrat', sans-serif; 
+            text-align: center; 
+            overflow-x: hidden; 
+        }
+
+        /* FONDO DINÁMICO */
+        .bg-kate { 
+            position: fixed; 
+            inset: 0; 
+            background: var(--bts-gradient); 
+            z-index: -1; 
+        }
         
-        .bts-photo { border: 4px solid #bb86fc; border-radius: 50%; width: 200px; height: 200px; object-fit: cover; box-shadow: 0 0 20px #bb86fc; }
-        .mural-k { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 30px; }
-        .mural-k img { width: 100%; border-radius: 10px; border: 2px solid #bb86fc; filter: brightness(0.8); transition: 0.3s; }
-        .mural-k img:hover { filter: brightness(1.2); box-shadow: 0 0 20px #bb86fc; }
+        /* PANTALLA DE INICIO */
+        #bloqueo-inicial { 
+            position: fixed; inset: 0; background: #000; z-index: 50000; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+        }
+
+        /* INTRO CON TRANSICIÓN DE OPACIDAD */
+        #intro-k { 
+            position: fixed; inset: 0; background: #000; z-index: 1000; 
+            display: none; align-items: center; justify-content: center; 
+        }
         
-        .btn-k { background: #bb86fc; color: black; border: none; padding: 15px 30px; border-radius: 10px; cursor: pointer; font-weight: bold; }
+        #text-k {
+            transition: opacity 0.6s ease-in-out;
+            opacity: 0;
+        }
+
+        .container { 
+            padding: 40px 20px; 
+            display: none; 
+            opacity: 0; 
+            transition: opacity 2s ease-in; 
+        }
+        
+        /* FOTO PRINCIPAL CON EFECTO GLOW */
+        .bts-photo-wrapper { 
+            position: relative; 
+            width: 200px; 
+            height: 200px; 
+            margin: 0 auto 30px; 
+        }
+        .bts-photo { 
+            width: 100%; height: 100%; border-radius: 50%; object-fit: cover; 
+            border: 3px solid var(--army-purple); 
+            box-shadow: 0 0 25px var(--army-purple);
+        }
+
+        /* MURAL DE FOTOS */
+        .mural-k { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 15px; 
+            margin: 40px auto; 
+            max-width: 1000px; 
+            padding: 0 20px;
+        }
+        .mural-k div { 
+            border-radius: 12px; 
+            overflow: hidden; 
+            border: 1px solid rgba(187, 134, 252, 0.2);
+            transition: transform 0.4s ease;
+        }
+        .mural-k img { 
+            width: 100%; 
+            height: 250px; 
+            object-fit: cover; 
+            display: block;
+            filter: brightness(0.8);
+            transition: 0.4s;
+        }
+        .mural-k div:hover { transform: scale(1.03); border-color: var(--army-purple); }
+        .mural-k div:hover img { filter: brightness(1.1); }
+
+        .message-box { 
+            background: rgba(36, 0, 70, 0.5); 
+            padding: 25px; 
+            border-radius: 20px; 
+            border-left: 5px solid var(--army-purple); 
+            max-width: 600px; 
+            margin: 30px auto;
+            backdrop-filter: blur(5px);
+        }
+
+        .btn-k { 
+            background: transparent; 
+            color: var(--army-purple); 
+            border: 2px solid var(--army-purple); 
+            padding: 15px 35px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: bold;
+            transition: 0.3s;
+            font-family: 'Syncopate', sans-serif;
+            font-size: 0.8rem;
+        }
+        .btn-k:hover { background: var(--army-purple); color: black; box-shadow: 0 0 20px var(--army-purple); }
+
     </style>
 </head>
 <body>
-    <div class="bg-kate"></div>
-    <audio id="audioK" loop><source src="TU_LINK_DE_BTS.mp3"></audio>
 
-    <div id="intro-k">
-        <h1 id="text-k" style="color:#bb86fc; font-size: 3rem;">¡Atención ARMY! 💜</h1>
+    <div class="bg-kate"></div>
+
+    <!-- INICIO -->
+    <div id="bloqueo-inicial">
+        <h2 style="color: var(--army-purple); font-family: 'Syncopate'; margin-bottom: 20px;">BTS CHAPTER: KATE</h2>
+        <button class="btn-k" onclick="iniciarExperiencia()">BORAHAE 💜</button>
     </div>
 
+    <!-- AUDIO BTS -->
+    <audio id="audioBTS" loop preload="auto">
+        <source src="TU_LINK_DE_BTS.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- INTRO TEXTOS -->
+    <div id="intro-k">
+        <h1 id="text-k" style="color:var(--army-purple); font-size: 2rem;"></h1>
+    </div>
+
+    <!-- CONTENIDO -->
     <div class="container" id="main-k">
-        <img src="kate_perfil.jpg" class="bts-photo">
-        <h1 style="font-size: 3.5rem;">KATE: 20 AÑOS 🎂</h1>
+        <div class="bts-photo-wrapper">
+            <img src="kate_perfil.jpg" class="bts-photo">
+        </div>
         
-        <div style="background: rgba(187,134,252,0.1); padding: 20px; border-radius: 20px; border: 1px solid #bb86fc;">
-            <h3>Para mi cuñis favorita</h3>
-            <p>Kate, que tus 20 años sean tan vibrantes como un concierto de BTS. ¡Te mereces todo lo mejor hoy y siempre!</p>
+        <h1 style="font-family: 'Syncopate'; font-size: 2.5rem; margin: 0;">KATE</h1>
+        <p style="color: var(--army-purple); letter-spacing: 3px;">20 YEARS OLD</p>
+        
+        <div class="message-box">
+            <p>Kate, que tus 20 años sean tan vibrantes como un concierto de BTS. ¡Te mereces todo lo mejor hoy y siempre, cuñis! 💜</p>
         </div>
 
         <div class="mural-k">
-            <img src="k1.jpg"> <img src="k2.jpg"> <img src="k3.jpg">
+            <div><img src="k1.jpg"></div>
+            <div><img src="k2.jpg"></div>
+            <div><img src="k3.jpg"></div>
         </div>
 
-        <h2>BTS Game Area 🕹️</h2>
-        <div style="background: #111; padding: 20px; border-radius: 20px;">
-            <p>Haz clic al ritmo de la música</p>
-            <button class="btn-k" onclick="confettiBlast()">LANZAR DINAMITA 🧨</button>
+        <div style="margin: 50px 0;">
+            <button class="btn-k" onclick="boom()">LANZAR DINAMITA 🧨</button>
         </div>
 
-        <br><a href="ambas.html" style="color:#bb86fc; text-decoration:none;">Ir al mural de las dos 👯‍♀️</a>
+        <a href="ambas.html" style="color:var(--army-purple); text-decoration:none; font-size: 0.9rem;">Ver mural compartido 👯‍♀️</a>
+        <div style="height: 60px;"></div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <script>
-        const texts = ["¡Atención ARMY! 💜", "Hoy es un día Legendario...", "¡Feliz Cumpleaños Kate!", "20 Años de Brillo ✨"];
-        let i = 0;
-        const interval = setInterval(() => {
-            document.getElementById('text-k').innerText = texts[i];
-            i++;
-            if(i == texts.length) {
-                clearInterval(interval);
-                setTimeout(() => {
-                    document.getElementById('intro-k').style.display = 'none';
-                    document.getElementById('main-k').style.display = 'block';
-                    document.getElementById('audioK').play();
-                }, 2000);
-            }
-        }, 2000);
+        const audio = document.getElementById('audioBTS');
+        const intro = document.getElementById('intro-k');
+        const main = document.getElementById('main-k');
+        const txt = document.getElementById('text-k');
 
-        function confettiBlast() {
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#bb86fc', '#ffffff'] });
+        const frases = [
+            "¡Atención ARMY! 💜",
+            "Hoy celebramos a una leyenda...",
+            "¡Feliz Cumpleaños Kate!",
+            "I Purple You 💜"
+        ];
+
+        function iniciarExperiencia() {
+            document.getElementById('bloqueo-inicial').style.display = 'none';
+            intro.style.display = 'flex';
+            audio.play();
+            mostrarFrases(0);
+        }
+
+        function mostrarFrases(index) {
+            if (index < frases.length) {
+                txt.innerText = frases[index];
+                txt.style.opacity = 1;
+                setTimeout(() => {
+                    txt.style.opacity = 0;
+                    setTimeout(() => mostrarFrases(index + 1), 600);
+                }, 2000);
+            } else {
+                intro.style.opacity = 0;
+                setTimeout(() => {
+                    intro.style.display = 'none';
+                    main.style.display = 'block';
+                    setTimeout(() => main.style.opacity = 1, 100);
+                }, 1000);
+            }
+        }
+
+        function boom() {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#bb86fc', '#6200ee', '#ffffff']
+            });
         }
     </script>
 </body>
