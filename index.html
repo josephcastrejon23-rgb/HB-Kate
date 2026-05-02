@@ -11,7 +11,6 @@
             --army-purple: #bb86fc; 
             --dark-purple: #1a0033; 
             --bts-gradient: linear-gradient(135deg, #120024 0%, #000000 100%);
-            --glow: 0 0 15px rgba(187, 134, 252, 0.6);
         }
         
         body { 
@@ -23,28 +22,18 @@
             overflow-x: hidden; 
         }
 
-        /* FONDO DINÁMICO CON ESTRELLAS */
         .bg-kate { 
             position: fixed; 
             inset: 0; 
             background: var(--bts-gradient); 
             z-index: -1; 
         }
-        .stars {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: transparent url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
-            z-index: -1; opacity: 0.5;
-            animation: twinkle 5s infinite alternate;
-        }
-        @keyframes twinkle { from { opacity: 0.3; } to { opacity: 0.7; } }
         
-        /* PANTALLA DE INICIO */
         #bloqueo-inicial { 
             position: fixed; inset: 0; background: #000; z-index: 50000; 
             display: flex; flex-direction: column; align-items: center; justify-content: center; 
         }
 
-        /* INTRO CON TRANSICIÓN */
         #intro-k { 
             position: fixed; inset: 0; background: #000; z-index: 1000; 
             display: none; align-items: center; justify-content: center; 
@@ -53,144 +42,114 @@
         #text-k {
             transition: opacity 0.6s ease-in-out;
             opacity: 0;
-            text-shadow: var(--glow);
+            text-shadow: 0 0 15px var(--army-purple);
         }
 
         .container { 
-            padding: 40px 20px; 
+            padding: 60px 20px; 
             display: none; 
             opacity: 0; 
             transition: opacity 2s ease-in; 
-            max-width: 1200px;
+            max-width: 1100px;
             margin: auto;
         }
         
-        /* FOTO PRINCIPAL MEJORADA */
-        .bts-photo-wrapper { 
-            position: relative; 
-            width: 220px; 
-            height: 220px; 
-            margin: 0 auto 30px; 
-        }
-        .bts-photo { 
-            width: 100%; height: 100%; border-radius: 50%; object-fit: cover; 
-            border: 4px solid var(--army-purple); 
-            box-shadow: 0 0 30px var(--army-purple);
-            transition: transform 0.5s ease;
-        }
-        .bts-photo-wrapper:hover .bts-photo { transform: scale(1.05); }
+        /* TÍTULOS REFINADOS */
+        .header-section { margin-bottom: 50px; }
+        h1.main-title { font-family: 'Syncopate'; font-size: 3.5rem; margin: 0; letter-spacing: 10px; }
+        .age-badge { color: var(--army-purple); letter-spacing: 5px; font-weight: 300; margin-top: 10px; }
 
-        /* MURAL DE FOTOS MEJORADO */
+        /* MURAL ESTILO REJILLA MODERNA */
         .mural-k { 
             display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+            grid-auto-rows: 350px;
             gap: 20px; 
-            margin: 50px auto; 
-            padding: 0 20px;
+            margin: 40px auto; 
         }
+        
+        /* Variación de tamaños para dinamismo */
+        .mural-k div:nth-child(2n) { grid-row: span 1.5; }
+        .mural-k div:nth-child(3n) { grid-column: span 1; grid-row: span 1.2; }
+
         .mural-k div { 
-            position: relative;
             border-radius: 15px; 
             overflow: hidden; 
-            border: 2px solid rgba(187, 134, 252, 0.1);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            background: #111;
+            border: 1px solid rgba(187, 134, 252, 0.2);
+            transition: all 0.5s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
+        
         .mural-k img { 
             width: 100%; 
-            height: 300px; 
+            height: 100%; 
             object-fit: cover; 
             display: block;
-            filter: brightness(0.7) grayscale(30%);
+            filter: brightness(0.8);
             transition: 0.5s;
         }
+
         .mural-k div:hover { 
-            transform: translateY(-10px); 
-            border-color: var(--army-purple); 
-            box-shadow: 0 10px 25px rgba(187, 134, 252, 0.4);
+            transform: scale(1.02);
+            border-color: var(--army-purple);
+            box-shadow: 0 0 20px rgba(187, 134, 252, 0.3);
         }
-        .mural-k div:hover img { 
-            filter: brightness(1.1) grayscale(0%);
-            transform: scale(1.1);
-        }
+        .mural-k div:hover img { filter: brightness(1.1); }
 
         .message-box { 
-            background: rgba(36, 0, 70, 0.4); 
-            padding: 30px; 
-            border-radius: 20px; 
-            border: 1px solid var(--army-purple);
-            max-width: 650px; 
-            margin: 40px auto;
+            background: rgba(255, 255, 255, 0.05); 
+            padding: 35px; 
+            border-radius: 25px; 
+            border-left: 4px solid var(--army-purple);
+            max-width: 700px; 
+            margin: 0 auto 50px;
             backdrop-filter: blur(10px);
-            line-height: 1.6;
-            box-shadow: inset 0 0 20px rgba(187, 134, 252, 0.1);
+            text-align: left;
+            line-height: 1.8;
         }
 
         .btn-k { 
             background: transparent; 
             color: var(--army-purple); 
             border: 2px solid var(--army-purple); 
-            padding: 18px 40px; 
-            border-radius: 50px; 
+            padding: 15px 40px; 
+            border-radius: 4px; 
             cursor: pointer; 
             font-weight: bold;
-            transition: 0.4s;
-            font-family: 'Syncopate', sans-serif;
-            font-size: 0.85rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-        .btn-k:hover { 
-            background: var(--army-purple); 
-            color: black; 
-            box-shadow: 0 0 30px var(--army-purple);
-            transform: translateY(-2px);
-        }
-
-        footer a {
             transition: 0.3s;
-            border-bottom: 1px solid transparent;
-            padding-bottom: 5px;
+            font-family: 'Syncopate', sans-serif;
+            font-size: 0.8rem;
         }
-        footer a:hover {
-            color: white !important;
-            border-bottom: 1px solid var(--army-purple);
-        }
+        .btn-k:hover { background: var(--army-purple); color: black; box-shadow: 0 0 25px var(--army-purple); }
 
     </style>
 </head>
 <body>
 
     <div class="bg-kate"></div>
-    <div class="stars"></div>
 
-    <!-- INICIO -->
     <div id="bloqueo-inicial">
-        <h2 style="color: var(--army-purple); font-family: 'Syncopate'; margin-bottom: 20px; letter-spacing: 5px;">BTS CHAPTER: KATE</h2>
+        <h2 style="color: var(--army-purple); font-family: 'Syncopate'; margin-bottom: 25px;">BTS CHAPTER: KATE</h2>
         <button class="btn-k" onclick="iniciarExperiencia()">BORAHAE 💜</button>
     </div>
 
-    <!-- AUDIO BTS -->
     <audio id="audioBTS" loop preload="auto">
         <source src="Happy Birthday To You - THE KIBOOMERS Birthday Party Song for Kids (1).mp3" type="audio/mpeg">
     </audio>
 
-    <!-- INTRO TEXTOS -->
     <div id="intro-k">
-        <h1 id="text-k" style="color:var(--army-purple); font-size: 2.5rem; font-family: 'Syncopate';"></h1>
+        <h1 id="text-k" style="color:var(--army-purple); font-size: 2.2rem; font-family: 'Syncopate';"></h1>
     </div>
 
-    <!-- CONTENIDO -->
     <div class="container" id="main-k">
-        <div class="bts-photo-wrapper">
-            <img src="kate_perfil.jpg" class="bts-photo">
+        
+        <div class="header-section">
+            <h1 class="main-title">KATE</h1>
+            <p class="age-badge">CHAPTER 20</p>
         </div>
         
-        <h1 style="font-family: 'Syncopate'; font-size: 3rem; margin: 0; letter-spacing: 8px;">KATE</h1>
-        <p style="color: var(--army-purple); letter-spacing: 5px; font-weight: 300; margin-top: 10px;">LEVEL 20 UNLOCKED</p>
-        
         <div class="message-box">
-            <p style="font-size: 1.1rem;">¡Feliiiz cumpleee Kateee! 🎂, que la pases muy bonitooo, felices 20 añitos, sigue con la chispa que te caracteriza, eres una muy buena amiga. ¡Te mereces todo lo mejor hoy y siempre, cuñis! 💜</p>
+            <p>¡Feliiiz cumpleee Kateee! 🎂, que la pases muy bonitooo, felices 20 añitos. Sigue con esa chispa que te caracteriza, eres una muy buena amiga y te mereces todo lo mejor hoy y siempre, cuñis! 💜</p>
         </div>
 
         <div class="mural-k">
@@ -201,12 +160,12 @@
             <div><img src="WhatsApp Image 2026-04-29 at 11.21.15 AM.jpeg"></div>
         </div>
 
-        <div style="margin: 60px 0;">
+        <div style="margin: 80px 0;">
             <button class="btn-k" onclick="boom()">LANZAR DINAMITA 🧨</button>
         </div>
 
-        <footer style="margin-bottom: 80px;">
-            <a href="ambas.html" style="color:var(--army-purple); text-decoration:none; font-size: 0.9rem; font-weight: bold;">Ver mural compartido 👯‍♀️</a>
+        <footer style="padding-bottom: 50px;">
+            <a href="ambas.html" style="color:var(--army-purple); text-decoration:none; font-size: 0.9rem; letter-spacing: 2px;">VER MURAL COMPARTIDO 👯‍♀️</a>
         </footer>
     </div>
 
@@ -249,28 +208,12 @@
         }
 
         function boom() {
-            // Explosión central
             confetti({
                 particleCount: 150,
-                spread: 70,
+                spread: 80,
                 origin: { y: 0.6 },
-                colors: ['#bb86fc', '#6200ee', '#ffffff', '#240046']
+                colors: ['#bb86fc', '#ffffff', '#240046']
             });
-            // Lluvia desde los lados
-            setTimeout(() => {
-                confetti({
-                    particleCount: 50,
-                    angle: 60,
-                    spread: 55,
-                    origin: { x: 0 }
-                });
-                confetti({
-                    particleCount: 50,
-                    angle: 120,
-                    spread: 55,
-                    origin: { x: 1 }
-                });
-            }, 200);
         }
     </script>
 </body>
